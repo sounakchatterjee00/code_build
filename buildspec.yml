@@ -12,7 +12,7 @@ phases:
   build:
     commands:
       - echo deployment started `date`....
-      - sls deploy -v -s $ENV_NAME --package /Default
+      - sls deploy --package /Default
   post_build:
     commands:
       - echo serverless deployment completed successfully.
