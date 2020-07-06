@@ -16,9 +16,10 @@ phases:
       - |
         if [ "${SERVICE_PATH}" = "Service/Default" ]; 
         then
-          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd ${SERVICE_PATH_1} && serverless deploy -s $ENV_NAME &&cd -
+          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
+          cd ${SERVICE_PATH_1} && serverless deploy -s $ENV_NAME && cd -;
         else
-          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -
+          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
         fi
   post_build:
     commands:
