@@ -13,7 +13,6 @@ phases:
   build:
     commands:
       - echo deployment started `date`....
-      - pwd
       - cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -
   post_build:
     commands:
