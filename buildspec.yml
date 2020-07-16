@@ -25,7 +25,7 @@ phases:
   post_build:
     commands:
       - echo serverless deployment completed successfully.
-      - api_gw_endpoint= `aws cloudformation describe-stacks --stack-name Develope2-dev --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey==\"HelloLambdaFunctionQualifiedArn\") | .OutputValue'`
+      - api_gw_endpoint= `aws cloudformation describe-stacks --stack-name Develope2-dev --query \"Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}\" | jq '.[] | select(.OutputKey==\"HelloLambdaFunctionQualifiedArn\") | .OutputValue'`
       - echo $api_gw_endpoint
 cache:
   paths:
