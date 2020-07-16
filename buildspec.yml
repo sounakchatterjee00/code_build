@@ -16,7 +16,7 @@ phases:
     commands:
       - echo deployment started `date`....
       - cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
-      - api_gw_url=`aws cloudformation describe-stacks \--stack-name Develope2-dev \--query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
+      - api_gw_url=`aws cloudformation describe-stacks \--stack-name Develope2-dev \--query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq -r '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
   post_build:
     commands:
       - echo $api_gw_url
