@@ -4,8 +4,6 @@ phases:
   install:
     commands:
       - jq --version
-      - api_gw_url=aws cloudformation describe-stacks --stack-name Develope2-dev --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}"
-      - echo $api_gw_url
       - echo $CODEBUILD_SOURCE_VERSION 
       - echo installing serverless
       - npm install -g serverless
@@ -14,6 +12,8 @@ phases:
       - echo installing NPM dependecies...
       - npm install
       - cd ${SERVICE_PATH} && npm install && cd -
+      - api_gw_url=aws cloudformation describe-stacks --stack-name wirescore-poc-api-dev --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="ServiceEndpoint") | .OutputValue'
+      - echo $api_gw_url
   build:
     commands:
       - echo deployment started `date`....
