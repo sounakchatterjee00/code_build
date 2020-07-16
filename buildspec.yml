@@ -15,16 +15,8 @@ phases:
   build:
     commands:
       - echo deployment started `date`....
-      - |
-        if [ "${SERVICE_PATH}" = "Service/Default" ]; then
-          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
-          sleep 5;
-          cd ${SERVICE_PATH_1} && serverless deploy -s $ENV_NAME && cd -;
-        fi
-        cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
-      - api_gw_url=`aws cloudformation describe-stacks \
-        --stack-name Develope2-dev \
-        --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
+      - cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
+      - api_gw_url=`aws cloudformation describe-stacks \--stack-name Develope2-dev \--query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
       - echo $api_gw_url
   post_build:
     commands:
