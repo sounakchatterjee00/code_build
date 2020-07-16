@@ -4,6 +4,8 @@ phases:
   install:
     commands:
       - jq --version
+      - api_gw_url="something"
+      - echo $api_gw_url
       - echo $CODEBUILD_SOURCE_VERSION 
       - echo installing serverless
       - npm install -g serverless
