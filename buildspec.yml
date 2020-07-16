@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - git diff --name-only
+      - jq --version
       - echo $CODEBUILD_SOURCE_VERSION 
       - echo installing serverless
       - npm install -g serverless
