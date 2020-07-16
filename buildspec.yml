@@ -12,8 +12,6 @@ phases:
       - echo installing NPM dependecies...
       - npm install
       - cd ${SERVICE_PATH} && npm install && cd -
-      - api_gw_url=aws cloudformation describe-stacks --stack-name wirescore-poc-api-dev --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="ServiceEndpoint") | .OutputValue'
-      - echo $api_gw_url
   build:
     commands:
       - echo deployment started `date`....
@@ -27,6 +25,7 @@ phases:
   post_build:
     commands:
       - echo serverless deployment completed successfully.
+      - aws cloudformation describe-stacks --stack-name Develope2-dev
 cache:
   paths:
     - node_modules
