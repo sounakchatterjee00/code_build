@@ -22,8 +22,10 @@ phases:
           cd ${SERVICE_PATH_1} && serverless deploy -s $ENV_NAME && cd -;
         fi
         cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
-      - aws cloudformation describe-stacks --stack-name Develope2-dev --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'
-      - echo $api_gw_endpoint
+      - api_gw_url=`aws cloudformation describe-stacks \
+        --stack-name Develope2-dev \
+        --query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
+      - echo $api_gw_url
   post_build:
     commands:
       - echo serverless deployment completed successfully.
