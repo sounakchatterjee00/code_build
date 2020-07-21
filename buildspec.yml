@@ -3,6 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - jq --version
+      - echo $CODEBUILD_SOURCE_VERSION 
       - echo installing serverless
       - npm install -g serverless
   pre_build:
@@ -13,15 +15,11 @@ phases:
   build:
     commands:
       - echo deployment started `date`....
-      - |
-        if [ "${SERVICE_PATH}" = "Service/Default" ]; then
-          cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
-          sleep 5;
-          cd ${SERVICE_PATH_1} && serverless deploy -s $ENV_NAME && cd -;
-        fi
-        cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
+      - cd ${SERVICE_PATH} && serverless deploy -s $ENV_NAME && cd -;
+      - api_gw_url=`aws cloudformation describe-stacks \--stack-name Develope2-dev \--query "Stacks[0].Outputs[*].{OutputKey:OutputKey,OutputValue:OutputValue}" | jq -r '.[] | select(.OutputKey=="HelloLambdaFunctionQualifiedArn") | .OutputValue'`
   post_build:
     commands:
+      - echo $api_gw_url
       - echo serverless deployment completed successfully.
 cache:
   paths:
